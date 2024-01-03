@@ -1,0 +1,14 @@
+{
+  "name": "store-ts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "rimraf dist && node build.mjs && tsc"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.11",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  }
+}
