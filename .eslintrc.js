@@ -13,6 +13,7 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
     '@typescript-eslint/naming-convention': 'off',
     '@typescript-eslint/no-shadow': 'off',
     'jsx-a11y/control-has-associated-label': 'off',

@@ -1,10 +1,30 @@
 {
-  "name": "store-ts",
+  "name": "@architecture-benchmark/store-ts",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/resonance-box/architecture-benchmark.git"
+  },
+  "homepage": "https://github.com/resonance-box/architecture-benchmark#readme",
+  "bugs": {
+    "url": "https://github.com/resonance-box/architecture-benchmark/issues"
+  },
+  "license": "MIT",
+  "author": "ot07",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rimraf dist && node build.mjs && tsc"
+  },
+  "dependencies": {
+    "sorted-btree": "^1.8.1"
   },
   "devDependencies": {
     "esbuild": "^0.19.11",
