@@ -1,13 +1,31 @@
 {
-  "name": "engine",
+  "name": "@architecture-benchmark/engine",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/resonance-box/architecture-benchmark.git"
+  },
+  "homepage": "https://github.com/resonance-box/architecture-benchmark#readme",
+  "bugs": {
+    "url": "https://github.com/resonance-box/architecture-benchmark/issues"
+  },
+  "license": "MIT",
+  "author": "ot07",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rimraf dist && node build.mjs && tsc"
   },
   "dependencies": {
-    "@architecture-benchmark/store-ts": "workspace:*"
+    "@architecture-benchmark/store-ts": "workspace:*",
+    "sf2-synth-audio-worklet": "^0.0.9"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

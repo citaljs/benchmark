@@ -9,7 +9,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['packages/*/build.mjs'],
+        devDependencies: ['packages/*/build.mjs', 'apps/*/vite.config.ts'],
       },
     ],
     'import/prefer-default-export': 'off',

@@ -1,4 +1,5 @@
 import { IStore, createStore } from '@architecture-benchmark/store-ts'
+import { SoundFont2SynthNode } from 'sf2-synth-audio-worklet'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
   millisecondsToTicks,
@@ -21,7 +22,7 @@ export interface Engine {
   getPpq: () => number
   setPpq: (ppq: number) => void
   getStore: () => IStore
-  setSynthesizerPort: (port: MessagePort) => void
+  setSynthesizerNode: (node: SoundFont2SynthNode) => void
 }
 
 class EngineImpl implements Engine {
@@ -29,14 +30,14 @@ class EngineImpl implements Engine {
   private scheduledTicks: number
   private readonly player: Player
   private readonly store: IStore
-  private synthesizerPort?: MessagePort
+  private synthesizerNode?: SoundFont2SynthNode
 
   constructor(store: IStore, config?: EngineConfig) {
     this.lookAheadTime = config?.lookAheadTime ?? DEFAULT_LOOK_AHEAD_TIME
     this.scheduledTicks = 0
     this.player = new PlayerImpl()
     this.store = store
-    this.synthesizerPort = undefined
+    this.synthesizerNode = undefined
 
     this.player.onUpdate = ({ ticks }) => {
       const startTicks = this.scheduledTicks
@@ -54,7 +55,7 @@ class EngineImpl implements Engine {
         .forEach((event) => {
           const [noteOnEvent, noteOffEvent] = disassembleNote(event)
 
-          if (this.synthesizerPort !== undefined) {
+          if (this.synthesizerNode !== undefined) {
             const noteOnDelayTicks = noteOnEvent.ticks - startTicks
             const noteOnDelayTime = Math.max(
               0,
@@ -65,12 +66,12 @@ class EngineImpl implements Engine {
               ),
             )
 
-            this.synthesizerPort.postMessage({
-              kind: 'noteOn',
-              noteNumber: noteOnEvent.noteNumber,
-              velocity: noteOnEvent.velocity,
-              delayTime: noteOnDelayTime,
-            })
+            this.synthesizerNode.noteOn(
+              0,
+              noteOnEvent.noteNumber,
+              noteOnEvent.velocity,
+              noteOnDelayTime,
+            )
 
             const noteOffDelayTicks = noteOffEvent.ticks - startTicks
             const noteOffDelayTime = Math.max(
@@ -82,11 +83,11 @@ class EngineImpl implements Engine {
               ),
             )
 
-            this.synthesizerPort.postMessage({
-              kind: 'noteOff',
-              noteNumber: noteOffEvent.noteNumber,
-              delayTime: noteOffDelayTime,
-            })
+            this.synthesizerNode.noteOff(
+              0,
+              noteOffEvent.noteNumber,
+              noteOffDelayTime,
+            )
           }
         })
 
@@ -135,12 +136,12 @@ class EngineImpl implements Engine {
     return this.store
   }
 
-  setSynthesizerPort(port: MessagePort): void {
-    this.synthesizerPort = port
+  setSynthesizerNode(node: SoundFont2SynthNode): void {
+    this.synthesizerNode = node
   }
 }
 
-export async function createEngine(config?: EngineConfig): Promise<Engine> {
-  const store = await createStore()
+export function createEngine(config?: EngineConfig): Engine {
+  const store = createStore()
   return new EngineImpl(store, config)
 }
