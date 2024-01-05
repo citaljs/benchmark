@@ -1,18 +1,37 @@
 import { Event, EventUpdate } from '../event'
+import { IStore, createStore } from '../store'
+import { ITrack, createTrack } from '../track'
 
-export class Song {
-  private events: Map<string, Event>
+export interface ISong {
+  getEvents(): Event[]
+  getEventsInTicksRange(
+    startTicks: number,
+    endTicks: number,
+    withinDuration: boolean,
+  ): Event[]
+  addEvent(event: Event): void
+  addEvents(events: Event[]): void
+  updateEvent(event: EventUpdate): void
+  updateEvents(events: EventUpdate[]): void
+  removeEvent(eventId: string): void
+  removeEvents(eventIds: string[]): void
+  getTrack(trackId: string): ITrack
+  getTracks(): ITrack[]
+  createTrack(trackId: string): void
+  removeTrack(trackId: string): void
+}
+
+export class Song implements ISong {
+  private store: IStore
+  private tracks: ITrack[]
 
   constructor() {
-    this.events = new Map()
+    this.store = createStore()
+    this.tracks = []
   }
 
-  getEvents(): Event[] {
-    const events: Event[] = []
-    this.events.forEach((event) => {
-      events.push(event)
-    })
-    return events
+  getEvents() {
+    return this.store.getEvents()
   }
 
   getEventsInTicksRange(
@@ -20,55 +39,79 @@ export class Song {
     endTicks: number,
     withinDuration: boolean,
   ) {
-    const events: Event[] = []
+    return this.store.getEventsInTicksRange(
+      startTicks,
+      endTicks,
+      withinDuration,
+    )
+  }
 
-    this.events.forEach((event) => {
-      const { ticks, duration } = event
+  addEvent(event: Event) {
+    if (!this.findTrack(event.trackId)) {
+      throw new Error(`Track with id ${event.trackId} not found`)
+    }
+    this.store.addEvent(event)
+  }
 
-      if (withinDuration) {
-        if (
-          (ticks >= startTicks && ticks <= endTicks) ||
-          ticks + duration > startTicks
-        ) {
-          events.push(event)
-        }
-      }
-
-      if (ticks >= startTicks && ticks <= endTicks) {
-        events.push(event)
+  addEvents(events: Event[]) {
+    events.forEach((event) => {
+      if (!this.findTrack(event.trackId)) {
+        throw new Error(`Track with id ${event.trackId} not found`)
       }
     })
-
-    return events
+    this.store.addEvents(events)
   }
 
-  addEvent(event: Event): Event {
-    this.events.set(event.id, event)
-    return event
+  updateEvent(event: EventUpdate) {
+    this.store.updateEvent(event)
   }
 
-  updateEvent(event: EventUpdate): Event {
-    const { id } = event
-    const currentEvent = this.events.get(id)
-    if (!currentEvent) {
-      throw new Error(`Event with id ${id} not found`)
+  updateEvents(events: EventUpdate[]) {
+    this.store.updateEvents(events)
+  }
+
+  removeEvent(eventId: string) {
+    this.store.removeEvent(eventId)
+  }
+
+  removeEvents(eventIds: string[]) {
+    this.store.removeEvents(eventIds)
+  }
+
+  private findTrack(trackId: string) {
+    return this.tracks.find((track) => track.getId() === trackId)
+  }
+
+  getTrack(trackId: string) {
+    const track = this.findTrack(trackId)
+    if (!track) {
+      throw new Error(`Track with id ${trackId} not found`)
+    }
+    return track
+  }
+
+  getTracks() {
+    return this.tracks
+  }
+
+  createTrack(trackId: string) {
+    this.tracks.push(createTrack(trackId, this.store))
+  }
+
+  removeTrack(trackId: string) {
+    const trackIndex = this.tracks.findIndex(
+      (event) => event.getId() === trackId,
+    )
+    if (trackIndex === -1) {
+      throw new Error(`Event with id ${trackId} not found`)
     }
 
-    const newEvent = {
-      ...currentEvent,
-      ...event,
-    }
-
-    this.events.set(id, newEvent)
-    return newEvent
+    this.tracks.splice(trackIndex, 1)
   }
+}
 
-  removeEvent(eventId: string): void {
-    const exists = this.events.delete(eventId)
-    if (!exists) {
-      throw new Error(`Event with id ${eventId} not found`)
-    }
-  }
+export function createSong(): ISong {
+  return new Song()
 }
 
 /* export class Song {

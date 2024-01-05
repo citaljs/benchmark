@@ -1,4 +1,4 @@
-import { IStore, createStore } from '@architecture-benchmark/store-ts'
+import { ISong, createSong } from '@architecture-benchmark/store-ts'
 import { SoundFont2SynthNode } from 'sf2-synth-audio-worklet'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
@@ -21,7 +21,7 @@ export interface Engine {
   setBpm: (bpm: number) => void
   getPpq: () => number
   setPpq: (ppq: number) => void
-  getStore: () => IStore
+  getSong: () => ISong
   setSynthesizerNode: (node: SoundFont2SynthNode) => void
 }
 
@@ -29,14 +29,14 @@ class EngineImpl implements Engine {
   private readonly lookAheadTime: number
   private scheduledTicks: number
   private readonly player: Player
-  private readonly store: IStore
+  private readonly song: ISong
   private synthesizerNode?: SoundFont2SynthNode
 
-  constructor(store: IStore, config?: EngineConfig) {
+  constructor(song: ISong, config?: EngineConfig) {
     this.lookAheadTime = config?.lookAheadTime ?? DEFAULT_LOOK_AHEAD_TIME
     this.scheduledTicks = 0
     this.player = new PlayerImpl()
-    this.store = store
+    this.song = song
     this.synthesizerNode = undefined
 
     this.player.onUpdate = ({ ticks }) => {
@@ -50,7 +50,7 @@ class EngineImpl implements Engine {
           this.player.ppq,
         )
 
-      this.store
+      this.song
         .getEventsInTicksRange(startTicks, endTicks, false)
         .forEach((event) => {
           const [noteOnEvent, noteOffEvent] = disassembleNote(event)
@@ -132,8 +132,8 @@ class EngineImpl implements Engine {
     this.player.ppq = ppq
   }
 
-  getStore() {
-    return this.store
+  getSong() {
+    return this.song
   }
 
   setSynthesizerNode(node: SoundFont2SynthNode): void {
@@ -142,6 +142,6 @@ class EngineImpl implements Engine {
 }
 
 export function createEngine(config?: EngineConfig): Engine {
-  const store = createStore()
-  return new EngineImpl(store, config)
+  const song = createSong()
+  return new EngineImpl(song, config)
 }

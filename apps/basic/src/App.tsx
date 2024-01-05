@@ -12,23 +12,33 @@ function getRandomInt(max: number) {
 
 const sf2URL = new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
 const engine = createEngine()
-const store = engine.getStore()
+const song = engine.getSong()
 
 function addEvents() {
+  for (let i = 0; i < 10; i += 1) {
+    song.createTrack(`${i + 1}`)
+  }
+
   for (let i = 0; i < 10000000; i += 1) {
-    store.addEvent({
+    song.addEvent({
       id: `${i + 1}`,
       kind: 'Note',
       ticks: getRandomInt(100000),
       duration: getRandomInt(2000),
       velocity: getRandomInt(100),
       noteNumber: getRandomInt(100),
-      trackId: '1',
+      trackId: `${(i % 10) + 1}`,
     })
   }
 }
 
 addEvents()
+
+console.log('all events:', song.getEvents())
+
+song.getTracks().forEach((track) => {
+  console.log(`track ${track.getId()}:`, track.getEvents())
+})
 
 function App() {
   const [started, setStarted] = useState(false)
@@ -55,16 +65,9 @@ function App() {
     const audioContext = new AudioContext()
     createSoundFont2SynthNode(audioContext, sf2URL).then((node) => {
       engine.setSynthesizerNode(node)
+      // node.connect(audioContext.destination)
       setNode(node)
     })
-  }
-
-  function noteOn() {
-    node?.noteOn(0, 60, 100, 0)
-  }
-
-  function noteOff() {
-    node?.noteOff(0, 60, 0)
   }
 
   function play() {
@@ -78,21 +81,13 @@ function App() {
   return (
     <div style={{ width: '100%' }}>
       <FPSStats left="auto" right={0} />
-      <button type="button" disabled={started} onClick={setup}>
+      <button disabled={started} onClick={setup}>
         Start
       </button>
-      <button
-        type="button"
-        disabled={node === undefined}
-        onMouseDown={noteOn}
-        onMouseUp={noteOff}
-      >
-        Sound
-      </button>
-      <button type="button" disabled={node === undefined} onClick={play}>
+      <button disabled={node === undefined} onClick={play}>
         Play
       </button>
-      <button type="button" disabled={node === undefined} onClick={stop}>
+      <button disabled={node === undefined} onClick={stop}>
         Stop
       </button>
       <div ref={currentTicksRef} />
