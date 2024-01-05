@@ -9,7 +9,6 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random() * max)
 }
 
-const sf2URL = new URL('./assets/GeneralUser GS v1.471.sf2', import.meta.url)
 const engine = createEngine()
 const song = engine.getSong()
 
