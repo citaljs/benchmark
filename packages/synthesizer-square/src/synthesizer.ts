@@ -1,40 +1,32 @@
+import {
+  ISynthesizer,
+  NoteOff,
+  NoteOn,
+} from '@architecture-benchmark/synthesizer-base'
 import { noteNumberToFrequency } from './utils'
 
-interface NoteOn {
-  noteId: string
-  type: 'NoteOn'
-  ticks: number
-  noteNumber: number
-  velocity: number
-  delayTime: number
-}
-
-interface NoteOff {
-  noteId: string
-  type: 'NoteOff'
-  ticks: number
-  noteNumber: number
-  delayTime: number
-}
-
-export class SquareSynthesizer {
-  private audioContext: AudioContext
+export class SquareSynthesizer implements ISynthesizer {
+  private context: AudioContext
+  private node: AudioNode
   private voices: Map<string, OscillatorNode>
   private voiceQueue: string[]
   private maxVoices: number
-  private outputNode: AudioNode
 
-  constructor(maxVoices: number = 8) {
-    this.audioContext = new AudioContext()
+  constructor(context: AudioContext, maxVoices: number = 8) {
+    this.context = context
     this.voices = new Map()
     this.voiceQueue = []
     this.maxVoices = maxVoices
-    this.outputNode = this.audioContext.createGain()
-    this.outputNode.connect(this.audioContext.destination)
+    this.node = this.context.createGain()
+    this.node.connect(this.context.destination)
+  }
+
+  getContext() {
+    return this.context
   }
 
   getNode() {
-    return this.outputNode
+    return this.node
   }
 
   noteOn(event: NoteOn) {
@@ -43,21 +35,21 @@ export class SquareSynthesizer {
     }
 
     const frequency = noteNumberToFrequency(event.noteNumber)
-    const oscillator = this.audioContext.createOscillator()
+    const oscillator = this.context.createOscillator()
     oscillator.type = 'square'
     oscillator.frequency.setValueAtTime(
       frequency,
-      this.audioContext.currentTime + event.delayTime / 1000,
+      this.context.currentTime + event.delayTime / 1000,
     )
 
-    const gainNode = this.audioContext.createGain()
+    const gainNode = this.context.createGain()
     gainNode.gain.setValueAtTime(
       event.velocity / 127,
-      this.audioContext.currentTime + event.delayTime / 1000,
+      this.context.currentTime + event.delayTime / 1000,
     )
 
-    oscillator.connect(gainNode).connect(this.outputNode)
-    oscillator.start(this.audioContext.currentTime + event.delayTime)
+    oscillator.connect(gainNode).connect(this.node)
+    oscillator.start(this.context.currentTime + event.delayTime)
 
     this.voices.set(event.noteId, oscillator)
     this.voiceQueue.push(event.noteId)

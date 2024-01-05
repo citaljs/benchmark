@@ -56,6 +56,9 @@ importers:
       '@architecture-benchmark/event-ts':
         specifier: workspace:*
         version: link:../../packages/event-ts
+      '@architecture-benchmark/synthesizer-square':
+        specifier: workspace:*
+        version: link:../../packages/synthesizer-square
       '@tanstack/react-virtual':
         specifier: ^3.0.1
         version: 3.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -111,12 +114,12 @@ importers:
       '@architecture-benchmark/song-ts':
         specifier: workspace:*
         version: link:../song-ts
-      '@architecture-benchmark/square-synthesizer':
-        specifier: workspace:*
-        version: link:../square-synthesizer
       '@architecture-benchmark/store-ts':
         specifier: workspace:*
         version: link:../store-ts
+      '@architecture-benchmark/synthesizer-square':
+        specifier: workspace:*
+        version: link:../synthesizer-square
       sf2-synth-audio-worklet:
         specifier: ^0.0.9
         version: 0.0.9
@@ -154,18 +157,9 @@ importers:
       '@architecture-benchmark/store-ts':
         specifier: workspace:*
         version: link:../store-ts
-    devDependencies:
-      esbuild:
-        specifier: ^0.19.11
-        version: 0.19.11
-      rimraf:
-        specifier: ^5.0.5
-        version: 5.0.5
-      typescript:
-        specifier: ^5.2.2
-        version: 5.3.2
-
-  packages/square-synthesizer:
+      '@architecture-benchmark/synthesizer-base':
+        specifier: workspace:*
+        version: link:../synthesizer-base
     devDependencies:
       esbuild:
         specifier: ^0.19.11
@@ -185,6 +179,34 @@ importers:
       sorted-btree:
         specifier: ^1.8.1
         version: 1.8.1
+    devDependencies:
+      esbuild:
+        specifier: ^0.19.11
+        version: 0.19.11
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.2
+
+  packages/synthesizer-base:
+    devDependencies:
+      esbuild:
+        specifier: ^0.19.11
+        version: 0.19.11
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.2
+
+  packages/synthesizer-square:
+    dependencies:
+      '@architecture-benchmark/synthesizer-base':
+        specifier: workspace:*
+        version: link:../synthesizer-base
     devDependencies:
       esbuild:
         specifier: ^0.19.11

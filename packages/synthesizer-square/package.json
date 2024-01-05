@@ -1,5 +1,5 @@
 {
-  "name": "@architecture-benchmark/square-synthesizer",
+  "name": "@architecture-benchmark/synthesizer-square",
   "private": true,
   "version": "0.0.0",
   "description": "",
@@ -22,6 +22,9 @@
   ],
   "scripts": {
     "build": "rimraf dist && node build.mjs && tsc"
+  },
+  "dependencies": {
+    "@architecture-benchmark/synthesizer-base": "workspace:*"
   },
   "devDependencies": {
     "esbuild": "^0.19.11",

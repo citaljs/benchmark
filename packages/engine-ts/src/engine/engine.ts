@@ -1,6 +1,4 @@
 import { ISong, createSong } from '@architecture-benchmark/song-ts'
-import { SquareSynthesizer } from '@architecture-benchmark/square-synthesizer'
-import { SoundFont2SynthNode } from 'sf2-synth-audio-worklet'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
   millisecondsToTicks,
@@ -23,7 +21,6 @@ export interface Engine {
   getPpq: () => number
   setPpq: (ppq: number) => void
   getSong: () => ISong
-  setSynthesizerNode: (node: SoundFont2SynthNode) => void
 }
 
 class EngineImpl implements Engine {
@@ -31,15 +28,12 @@ class EngineImpl implements Engine {
   private scheduledTicks: number
   private readonly player: Player
   private readonly song: ISong
-  private synthesizerNode?: SoundFont2SynthNode
-  private synthesizer: SquareSynthesizer = new SquareSynthesizer()
 
   constructor(song: ISong, config?: EngineConfig) {
     this.lookAheadTime = config?.lookAheadTime ?? DEFAULT_LOOK_AHEAD_TIME
     this.scheduledTicks = 0
     this.player = new PlayerImpl()
     this.song = song
-    this.synthesizerNode = undefined
 
     this.player.onUpdate = ({ ticks }) => {
       const startTicks = this.scheduledTicks
@@ -61,31 +55,13 @@ class EngineImpl implements Engine {
           },
         })
         .forEach((event) => {
-          const [noteOnEvent, noteOffEvent] = disassembleNote(event)
+          const { trackId } = event
+          const track = this.song.getTrack(trackId)
+          const synthesizer = track?.getSynthesizer()
 
-          const noteOnDelayTicks = noteOnEvent.ticks - startTicks
-          const noteOnDelayTime = Math.max(
-            0,
-            ticksToSeconds(noteOnDelayTicks, this.player.bpm, this.player.ppq),
-          )
+          if (synthesizer) {
+            const [noteOnEvent, noteOffEvent] = disassembleNote(event)
 
-          this.synthesizer.noteOn({
-            ...noteOnEvent,
-            delayTime: noteOnDelayTime,
-          })
-
-          const noteOffDelayTicks = noteOffEvent.ticks - startTicks
-          const noteOffDelayTime = Math.max(
-            0,
-            ticksToSeconds(noteOffDelayTicks, this.player.bpm, this.player.ppq),
-          )
-
-          this.synthesizer.noteOff({
-            ...noteOffEvent,
-            delayTime: noteOffDelayTime,
-          })
-
-          /* if (this.synthesizerNode !== undefined) {
             const noteOnDelayTicks = noteOnEvent.ticks - startTicks
             const noteOnDelayTime = Math.max(
               0,
@@ -96,12 +72,10 @@ class EngineImpl implements Engine {
               ),
             )
 
-            this.synthesizerNode.noteOn(
-              0,
-              noteOnEvent.noteNumber,
-              noteOnEvent.velocity,
-              noteOnDelayTime,
-            )
+            synthesizer.noteOn({
+              ...noteOnEvent,
+              delayTime: noteOnDelayTime,
+            })
 
             const noteOffDelayTicks = noteOffEvent.ticks - startTicks
             const noteOffDelayTime = Math.max(
@@ -113,12 +87,11 @@ class EngineImpl implements Engine {
               ),
             )
 
-            this.synthesizerNode.noteOff(
-              0,
-              noteOffEvent.noteNumber,
-              noteOffDelayTime,
-            )
-          } */
+            synthesizer.noteOff({
+              ...noteOffEvent,
+              delayTime: noteOffDelayTime,
+            })
+          }
         })
 
       this.scheduledTicks = endTicks
@@ -164,10 +137,6 @@ class EngineImpl implements Engine {
 
   getSong() {
     return this.song
-  }
-
-  setSynthesizerNode(node: SoundFont2SynthNode): void {
-    this.synthesizerNode = node
   }
 }
 

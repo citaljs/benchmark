@@ -1,5 +1,5 @@
 {
-  "name": "@architecture-benchmark/engine-ts",
+  "name": "@architecture-benchmark/synthesizer-base",
   "private": true,
   "version": "0.0.0",
   "description": "",
@@ -23,15 +23,7 @@
   "scripts": {
     "build": "rimraf dist && node build.mjs && tsc"
   },
-  "dependencies": {
-    "@architecture-benchmark/event-ts": "workspace:*",
-    "@architecture-benchmark/song-ts": "workspace:*",
-    "@architecture-benchmark/store-ts": "workspace:*",
-    "@architecture-benchmark/synthesizer-square": "workspace:*",
-    "sf2-synth-audio-worklet": "^0.0.9"
-  },
   "devDependencies": {
-    "@types/node": "^20.10.6",
     "esbuild": "^0.19.11",
     "rimraf": "^5.0.5",
     "typescript": "^5.2.2"

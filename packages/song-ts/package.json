@@ -25,7 +25,8 @@
   },
   "dependencies": {
     "@architecture-benchmark/event-ts": "workspace:*",
-    "@architecture-benchmark/store-ts": "workspace:*"
+    "@architecture-benchmark/store-ts": "workspace:*",
+    "@architecture-benchmark/synthesizer-base": "workspace:*"
   },
   "devDependencies": {
     "esbuild": "^0.19.11",

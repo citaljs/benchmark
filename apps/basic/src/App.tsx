@@ -1,5 +1,6 @@
 import { createEngine } from '@architecture-benchmark/engine-ts'
 import { Event } from '@architecture-benchmark/event-ts'
+import { SquareSynthesizer } from '@architecture-benchmark/synthesizer-square'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useEffect, useRef, useState } from 'react'
 import FPSStats from 'react-fps-stats'
@@ -17,9 +18,16 @@ const engine = createEngine()
 const song = engine.getSong()
 
 function addEvents() {
+  const synthesizer = new SquareSynthesizer(new AudioContext())
+
   for (let i = 0; i < 10; i += 1) {
     song.createTrack(`${i + 1}`)
   }
+
+  const tracks = song.getTracks()
+  tracks.forEach((track) => {
+    track.setSynthesizer(synthesizer)
+  })
 
   for (let i = 0; i < 5_000_000; i += 1) {
     song.addEvent({
@@ -108,7 +116,7 @@ function App() {
     setStarted(true)
     const audioContext = new AudioContext()
     createSoundFont2SynthNode(audioContext, sf2URL).then((node) => {
-      engine.setSynthesizerNode(node)
+      // engine.setSynthesizerNode(node)
       // node.connect(audioContext.destination)
       setNode(node)
     })
