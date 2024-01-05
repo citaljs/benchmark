@@ -12,12 +12,11 @@
   "dependencies": {
     "@architecture-benchmark/engine-ts": "workspace:*",
     "@architecture-benchmark/event-ts": "workspace:*",
-    "@architecture-benchmark/synthesizer-square": "workspace:*",
+    "@architecture-benchmark/synthesizer-osc": "workspace:*",
     "@tanstack/react-virtual": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-fps-stats": "^0.3.1",
-    "sf2-synth-audio-worklet": "^0.0.9"
+    "react-fps-stats": "^0.3.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

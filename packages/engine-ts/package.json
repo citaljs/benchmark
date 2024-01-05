@@ -26,9 +26,7 @@
   "dependencies": {
     "@architecture-benchmark/event-ts": "workspace:*",
     "@architecture-benchmark/song-ts": "workspace:*",
-    "@architecture-benchmark/store-ts": "workspace:*",
-    "@architecture-benchmark/synthesizer-square": "workspace:*",
-    "sf2-synth-audio-worklet": "^0.0.9"
+    "@architecture-benchmark/store-ts": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

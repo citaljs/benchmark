@@ -5,18 +5,26 @@ import {
 } from '@architecture-benchmark/synthesizer-base'
 import { noteNumberToFrequency } from './utils'
 
-export class SquareSynthesizer implements ISynthesizer {
+type OscillatorType = 'sawtooth' | 'sine' | 'square' | 'triangle'
+
+export class OscSynthesizer implements ISynthesizer {
   private context: AudioContext
   private node: AudioNode
   private voices: Map<string, OscillatorNode>
   private voiceQueue: string[]
   private maxVoices: number
+  private oscillatorType: OscillatorType
 
-  constructor(context: AudioContext, maxVoices: number = 8) {
+  constructor(
+    context: AudioContext,
+    maxVoices: number = 8,
+    oscillatorType: OscillatorType = 'square',
+  ) {
     this.context = context
     this.voices = new Map()
     this.voiceQueue = []
     this.maxVoices = maxVoices
+    this.oscillatorType = oscillatorType
     this.node = this.context.createGain()
     this.node.connect(this.context.destination)
   }
@@ -36,7 +44,7 @@ export class SquareSynthesizer implements ISynthesizer {
 
     const frequency = noteNumberToFrequency(event.noteNumber)
     const oscillator = this.context.createOscillator()
-    oscillator.type = 'square'
+    oscillator.type = this.oscillatorType
     oscillator.frequency.setValueAtTime(
       frequency,
       this.context.currentTime + event.delayTime / 1000,

@@ -1,13 +1,9 @@
 import { createEngine } from '@architecture-benchmark/engine-ts'
 import { Event } from '@architecture-benchmark/event-ts'
-import { SquareSynthesizer } from '@architecture-benchmark/synthesizer-square'
+import { OscSynthesizer } from '@architecture-benchmark/synthesizer-osc'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import FPSStats from 'react-fps-stats'
-import {
-  SoundFont2SynthNode,
-  createSoundFont2SynthNode,
-} from 'sf2-synth-audio-worklet'
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max)
@@ -18,14 +14,18 @@ const engine = createEngine()
 const song = engine.getSong()
 
 function addEvents() {
-  const synthesizer = new SquareSynthesizer(new AudioContext())
-
   for (let i = 0; i < 10; i += 1) {
     song.createTrack(`${i + 1}`)
   }
 
   const tracks = song.getTracks()
-  tracks.forEach((track) => {
+  const oscTypes = ['sine', 'square', 'sawtooth', 'triangle'] as const
+  tracks.forEach((track, index) => {
+    const synthesizer = new OscSynthesizer(
+      new AudioContext(),
+      8,
+      oscTypes[index % 4],
+    )
     track.setSynthesizer(synthesizer)
   })
 
@@ -35,7 +35,6 @@ function addEvents() {
       kind: 'Note',
       ticks: getRandomInt(100_000),
       duration: getRandomInt(2_000) + 200,
-      // velocity: getRandomInt(100),
       velocity: 1,
       noteNumber: getRandomInt(36) + 36,
       trackId: `${(i % 10) + 1}`,
@@ -93,8 +92,6 @@ function EventsInfo({ events }: { events: Event[] }) {
 }
 
 function App() {
-  const [started, setStarted] = useState(false)
-  const [node, setNode] = useState<SoundFont2SynthNode>()
   const currentTicksRef = useRef<HTMLDivElement>(null)
   const currentSecondsRef = useRef<HTMLDivElement>(null)
 
@@ -112,16 +109,6 @@ function App() {
     requestAnimationFrame(update)
   }, [])
 
-  function setup() {
-    setStarted(true)
-    const audioContext = new AudioContext()
-    createSoundFont2SynthNode(audioContext, sf2URL).then((node) => {
-      // engine.setSynthesizerNode(node)
-      // node.connect(audioContext.destination)
-      setNode(node)
-    })
-  }
-
   function play() {
     engine.play()
   }
@@ -131,17 +118,10 @@ function App() {
   }
 
   return (
-    <div style={{ width: '100%' }}>
+    <div>
       <FPSStats left="auto" right={0} />
-      <button disabled={started} onClick={setup}>
-        Start
-      </button>
-      <button disabled={node === undefined} onClick={play}>
-        Play
-      </button>
-      <button disabled={node === undefined} onClick={stop}>
-        Stop
-      </button>
+      <button onClick={play}>Play</button>
+      <button onClick={stop}>Stop</button>
       <div ref={currentTicksRef} />
       <div ref={currentSecondsRef} />
 
