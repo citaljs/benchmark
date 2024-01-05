@@ -1,14 +1,9 @@
-import { Event, EventUpdate } from '../event'
-import { IStore, createStore } from '../store'
+import { Event, EventUpdate } from '@architecture-benchmark/event-ts'
+import { Filter, IStore, createStore } from '@architecture-benchmark/store-ts'
 import { ITrack, createTrack } from '../track'
 
 export interface ISong {
-  getEvents(): Event[]
-  getEventsInTicksRange(
-    startTicks: number,
-    endTicks: number,
-    withinDuration: boolean,
-  ): Event[]
+  getEvents(filter?: Filter): Event[]
   addEvent(event: Event): void
   addEvents(events: Event[]): void
   updateEvent(event: EventUpdate): void
@@ -30,20 +25,8 @@ export class Song implements ISong {
     this.tracks = []
   }
 
-  getEvents() {
-    return this.store.getEvents()
-  }
-
-  getEventsInTicksRange(
-    startTicks: number,
-    endTicks: number,
-    withinDuration: boolean,
-  ) {
-    return this.store.getEventsInTicksRange(
-      startTicks,
-      endTicks,
-      withinDuration,
-    )
+  getEvents(filter?: Filter) {
+    return this.store.getEvents(filter)
   }
 
   addEvent(event: Event) {
@@ -113,36 +96,3 @@ export class Song implements ISong {
 export function createSong(): ISong {
   return new Song()
 }
-
-/* export class Song {
-  private ppq: number
-  private tracks: ITrack[]
-  private events: Map<string, Event>
-  private ticksIndex: BTree<number, Set<string>>
-  private endTicksIndex: BTree<number, Set<string>>
-
-  constructor(ppq: number) {
-    this.ppq = ppq
-    this.tracks = []
-    this.events = new Map()
-    this.ticksIndex = new BTree()
-    this.endTicksIndex = new BTree()
-  }
-
-  getTrack(trackId: string) {
-    return this.tracks.find((track) => track.getId() === trackId)
-  }
-
-  getTracks() {
-    return this.tracks
-  }
-
-  addTrack(track: ITrack): ITrack {
-    this.tracks.push(track)
-    return track
-  }
-
-  removeTrack(trackId: string) {
-    this.tracks = this.tracks.filter((track) => track.getId() !== trackId)
-  }
-} */

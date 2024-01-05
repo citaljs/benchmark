@@ -1,5 +1,5 @@
 {
-  "name": "@architecture-benchmark/store-ts",
+  "name": "@architecture-benchmark/song-ts",
   "private": true,
   "version": "0.0.0",
   "description": "",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@architecture-benchmark/event-ts": "workspace:*",
-    "sorted-btree": "^1.8.1"
+    "@architecture-benchmark/store-ts": "workspace:*"
   },
   "devDependencies": {
     "esbuild": "^0.19.11",

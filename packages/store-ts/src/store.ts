@@ -1,13 +1,28 @@
-import { Event, EventUpdate } from '../event'
+import { Event, EventUpdate } from '@architecture-benchmark/event-ts'
+import { Filter, TicksRangeFilter } from './filter'
+
+function getFilterByTrackIdsFn(trackIds: string[]) {
+  return function f(event: Event) {
+    return trackIds.includes(event.trackId)
+  }
+}
+
+function getFilterByTicksRangeFn(ticksRange: TicksRangeFilter) {
+  const { start, end, withinDuration } = ticksRange
+
+  return function f(event: Event) {
+    const { ticks, duration } = event
+
+    if (withinDuration) {
+      return (ticks >= start && ticks <= end) || ticks + duration > start
+    }
+
+    return ticks >= start && ticks <= end
+  }
+}
 
 export interface IStore {
-  getEvents(): Event[]
-  getEventsInTicksRange(
-    startTicks: number,
-    endTicks: number,
-    withinDuration: boolean,
-  ): Event[]
-  getEventsInTrack(trackId: string): Event[]
+  getEvents(filter?: Filter): Event[]
   addEvent(event: Event): void
   addEvents(events: Event[]): void
   updateEvent(event: EventUpdate): void
@@ -23,31 +38,18 @@ export class Store implements IStore {
     this.events = []
   }
 
-  getEvents() {
-    return this.events
-  }
+  getEvents(filter?: Filter) {
+    let events = [...this.events]
 
-  getEventsInTicksRange(
-    startTicks: number,
-    endTicks: number,
-    withinDuration: boolean,
-  ) {
-    return this.events.filter((event) => {
-      const { ticks, duration } = event
+    if (filter?.trackIds) {
+      events = events.filter(getFilterByTrackIdsFn(filter.trackIds))
+    }
 
-      if (withinDuration) {
-        return (
-          (ticks >= startTicks && ticks <= endTicks) ||
-          ticks + duration > startTicks
-        )
-      }
+    if (filter?.ticksRange) {
+      events = events.filter(getFilterByTicksRangeFn(filter.ticksRange))
+    }
 
-      return ticks >= startTicks && ticks <= endTicks
-    })
-  }
-
-  getEventsInTrack(trackId: string) {
-    return this.events.filter((event) => event.trackId === trackId)
+    return events
   }
 
   addEvent(event: Event) {

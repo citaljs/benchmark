@@ -1,5 +1,5 @@
 {
-  "name": "@architecture-benchmark/engine",
+  "name": "@architecture-benchmark/engine-ts",
   "private": true,
   "version": "0.0.0",
   "description": "",
@@ -24,6 +24,8 @@
     "build": "rimraf dist && node build.mjs && tsc"
   },
   "dependencies": {
+    "@architecture-benchmark/event-ts": "workspace:*",
+    "@architecture-benchmark/song-ts": "workspace:*",
     "@architecture-benchmark/store-ts": "workspace:*",
     "sf2-synth-audio-worklet": "^0.0.9"
   },

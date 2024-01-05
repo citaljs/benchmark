@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@architecture-benchmark/engine": "workspace:*",
-    "@architecture-benchmark/store-ts": "workspace:*",
+    "@architecture-benchmark/engine-ts": "workspace:*",
+    "@architecture-benchmark/event-ts": "workspace:*",
     "@tanstack/react-virtual": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

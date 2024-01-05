@@ -1,9 +1,9 @@
-import { Event } from '../event'
-import { IStore } from '../store'
+import { Event } from '@architecture-benchmark/event-ts'
+import { Filter, IStore } from '@architecture-benchmark/store-ts'
 
 export interface ITrack {
   getId(): string
-  getEvents(): Event[]
+  getEvents(filter?: Omit<Filter, 'trackIds'>): Event[]
 }
 
 export class Track implements ITrack {
@@ -20,7 +20,9 @@ export class Track implements ITrack {
   }
 
   getEvents() {
-    return this.store.getEventsInTrack(this.id)
+    return this.store.getEvents({
+      trackIds: [this.id],
+    })
   }
 }
 

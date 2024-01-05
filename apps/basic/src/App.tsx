@@ -1,5 +1,5 @@
-import { createEngine } from '@architecture-benchmark/engine'
-import { Event } from '@architecture-benchmark/store-ts'
+import { createEngine } from '@architecture-benchmark/engine-ts'
+import { Event } from '@architecture-benchmark/event-ts'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useEffect, useRef, useState } from 'react'
 import FPSStats from 'react-fps-stats'

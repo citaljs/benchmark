@@ -50,12 +50,12 @@ importers:
 
   apps/basic:
     dependencies:
-      '@architecture-benchmark/engine':
+      '@architecture-benchmark/engine-ts':
         specifier: workspace:*
-        version: link:../../packages/engine
-      '@architecture-benchmark/store-ts':
+        version: link:../../packages/engine-ts
+      '@architecture-benchmark/event-ts':
         specifier: workspace:*
-        version: link:../../packages/store-ts
+        version: link:../../packages/event-ts
       '@tanstack/react-virtual':
         specifier: ^3.0.1
         version: 3.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -103,8 +103,14 @@ importers:
         specifier: ^5.0.8
         version: 5.0.10
 
-  packages/engine:
+  packages/engine-ts:
     dependencies:
+      '@architecture-benchmark/event-ts':
+        specifier: workspace:*
+        version: link:../event-ts
+      '@architecture-benchmark/song-ts':
+        specifier: workspace:*
+        version: link:../song-ts
       '@architecture-benchmark/store-ts':
         specifier: workspace:*
         version: link:../store-ts
@@ -125,8 +131,42 @@ importers:
         specifier: ^5.2.2
         version: 5.3.2
 
+  packages/event-ts:
+    devDependencies:
+      esbuild:
+        specifier: ^0.19.11
+        version: 0.19.11
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.2
+
+  packages/song-ts:
+    dependencies:
+      '@architecture-benchmark/event-ts':
+        specifier: workspace:*
+        version: link:../event-ts
+      '@architecture-benchmark/store-ts':
+        specifier: workspace:*
+        version: link:../store-ts
+    devDependencies:
+      esbuild:
+        specifier: ^0.19.11
+        version: 0.19.11
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.2
+
   packages/store-ts:
     dependencies:
+      '@architecture-benchmark/event-ts':
+        specifier: workspace:*
+        version: link:../event-ts
       sorted-btree:
         specifier: ^1.8.1
         version: 1.8.1

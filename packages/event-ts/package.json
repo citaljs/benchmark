@@ -1,5 +1,5 @@
 {
-  "name": "@architecture-benchmark/store-ts",
+  "name": "@architecture-benchmark/event-ts",
   "private": true,
   "version": "0.0.0",
   "description": "",
@@ -22,10 +22,6 @@
   ],
   "scripts": {
     "build": "rimraf dist && node build.mjs && tsc"
-  },
-  "dependencies": {
-    "@architecture-benchmark/event-ts": "workspace:*",
-    "sorted-btree": "^1.8.1"
   },
   "devDependencies": {
     "esbuild": "^0.19.11",

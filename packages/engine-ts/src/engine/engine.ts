@@ -1,4 +1,4 @@
-import { ISong, createSong } from '@architecture-benchmark/store-ts'
+import { ISong, createSong } from '@architecture-benchmark/song-ts'
 import { SoundFont2SynthNode } from 'sf2-synth-audio-worklet'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
@@ -51,7 +51,13 @@ class EngineImpl implements Engine {
         )
 
       this.song
-        .getEventsInTicksRange(startTicks, endTicks, false)
+        .getEvents({
+          ticksRange: {
+            start: startTicks,
+            end: endTicks,
+            withinDuration: false,
+          },
+        })
         .forEach((event) => {
           const [noteOnEvent, noteOffEvent] = disassembleNote(event)
 
