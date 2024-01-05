@@ -1,4 +1,6 @@
 import { createEngine } from '@architecture-benchmark/engine'
+import { Event } from '@architecture-benchmark/store-ts'
+import { useVirtualizer } from '@tanstack/react-virtual'
 import { useEffect, useRef, useState } from 'react'
 import FPSStats from 'react-fps-stats'
 import {
@@ -19,12 +21,12 @@ function addEvents() {
     song.createTrack(`${i + 1}`)
   }
 
-  for (let i = 0; i < 10000000; i += 1) {
+  for (let i = 0; i < 10_000_000; i += 1) {
     song.addEvent({
       id: `${i + 1}`,
       kind: 'Note',
-      ticks: getRandomInt(100000),
-      duration: getRandomInt(2000),
+      ticks: getRandomInt(100_000),
+      duration: getRandomInt(2_000),
       velocity: getRandomInt(100),
       noteNumber: getRandomInt(100),
       trackId: `${(i % 10) + 1}`,
@@ -34,11 +36,52 @@ function addEvents() {
 
 addEvents()
 
-console.log('all events:', song.getEvents())
+function EventsInfo({ events }: { events: Event[] }) {
+  const parentRef = useRef<HTMLDivElement>(null)
 
-song.getTracks().forEach((track) => {
-  console.log(`track ${track.getId()}:`, track.getEvents())
-})
+  const rowVirtualizer = useVirtualizer({
+    count: events.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 20,
+  })
+
+  return (
+    <div>
+      ({events.length} rows)
+      <div
+        ref={parentRef}
+        style={{
+          height: `400px`,
+          overflow: 'auto',
+        }}
+      >
+        <div
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`,
+            width: '100%',
+            position: 'relative',
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualItem) => (
+            <div
+              key={virtualItem.key}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: `${virtualItem.size}px`,
+                transform: `translateY(${virtualItem.start}px)`,
+              }}
+            >
+              <div>{events[virtualItem.index].id}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function App() {
   const [started, setStarted] = useState(false)
@@ -92,6 +135,11 @@ function App() {
       </button>
       <div ref={currentTicksRef} />
       <div ref={currentSecondsRef} />
+
+      <EventsInfo events={song.getEvents()} />
+      {song.getTracks().map((track) => (
+        <EventsInfo key={track.getId()} events={track.getEvents()} />
+      ))}
     </div>
   )
 }
