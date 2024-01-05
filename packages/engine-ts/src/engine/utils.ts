@@ -3,6 +3,7 @@ import { NoteOff, NoteOn } from './types'
 
 export const disassembleNote = (note: Readonly<Note>): [NoteOn, NoteOff] => {
   const noteOnEvent: NoteOn = {
+    noteId: note.id,
     type: 'NoteOn',
     ticks: note.ticks,
     velocity: note.velocity,
@@ -10,6 +11,7 @@ export const disassembleNote = (note: Readonly<Note>): [NoteOn, NoteOff] => {
   }
 
   const noteOffEvent: NoteOff = {
+    noteId: note.id,
     type: 'NoteOff',
     ticks: note.ticks + note.duration,
     noteNumber: note.noteNumber,

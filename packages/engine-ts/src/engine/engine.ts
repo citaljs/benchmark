@@ -1,4 +1,5 @@
 import { ISong, createSong } from '@architecture-benchmark/song-ts'
+import { SquareSynthesizer } from '@architecture-benchmark/square-synthesizer'
 import { SoundFont2SynthNode } from 'sf2-synth-audio-worklet'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
@@ -31,6 +32,7 @@ class EngineImpl implements Engine {
   private readonly player: Player
   private readonly song: ISong
   private synthesizerNode?: SoundFont2SynthNode
+  private synthesizer: SquareSynthesizer = new SquareSynthesizer()
 
   constructor(song: ISong, config?: EngineConfig) {
     this.lookAheadTime = config?.lookAheadTime ?? DEFAULT_LOOK_AHEAD_TIME
@@ -61,7 +63,29 @@ class EngineImpl implements Engine {
         .forEach((event) => {
           const [noteOnEvent, noteOffEvent] = disassembleNote(event)
 
-          if (this.synthesizerNode !== undefined) {
+          const noteOnDelayTicks = noteOnEvent.ticks - startTicks
+          const noteOnDelayTime = Math.max(
+            0,
+            ticksToSeconds(noteOnDelayTicks, this.player.bpm, this.player.ppq),
+          )
+
+          this.synthesizer.noteOn({
+            ...noteOnEvent,
+            delayTime: noteOnDelayTime,
+          })
+
+          const noteOffDelayTicks = noteOffEvent.ticks - startTicks
+          const noteOffDelayTime = Math.max(
+            0,
+            ticksToSeconds(noteOffDelayTicks, this.player.bpm, this.player.ppq),
+          )
+
+          this.synthesizer.noteOff({
+            ...noteOffEvent,
+            delayTime: noteOffDelayTime,
+          })
+
+          /* if (this.synthesizerNode !== undefined) {
             const noteOnDelayTicks = noteOnEvent.ticks - startTicks
             const noteOnDelayTime = Math.max(
               0,
@@ -94,7 +118,7 @@ class EngineImpl implements Engine {
               noteOffEvent.noteNumber,
               noteOffDelayTime,
             )
-          }
+          } */
         })
 
       this.scheduledTicks = endTicks

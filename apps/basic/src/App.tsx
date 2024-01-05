@@ -21,14 +21,15 @@ function addEvents() {
     song.createTrack(`${i + 1}`)
   }
 
-  for (let i = 0; i < 10_000_000; i += 1) {
+  for (let i = 0; i < 5_000_000; i += 1) {
     song.addEvent({
       id: `${i + 1}`,
       kind: 'Note',
       ticks: getRandomInt(100_000),
-      duration: getRandomInt(2_000),
-      velocity: getRandomInt(100),
-      noteNumber: getRandomInt(100),
+      duration: getRandomInt(2_000) + 200,
+      // velocity: getRandomInt(100),
+      velocity: 1,
+      noteNumber: getRandomInt(36) + 36,
       trackId: `${(i % 10) + 1}`,
     })
   }
