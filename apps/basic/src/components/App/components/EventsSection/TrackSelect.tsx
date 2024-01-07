@@ -27,7 +27,7 @@ export function TrackSelect({
       },
       ...song.getTracks().map((track, index) => ({
         value: track.getId(),
-        label: `Track ${index + 1}`,
+        label: `Track ${index + 1} (ID: ${track.getId()})`,
       })),
     ],
     [],
@@ -35,7 +35,7 @@ export function TrackSelect({
 
   return (
     <Select value={value} onValueChange={onValueChange} defaultValue="all">
-      <SelectTrigger className="w-36">
+      <SelectTrigger className="w-40">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

@@ -28,7 +28,8 @@ function addEvents() {
     track.setSynthesizer(synthesizer)
   })
 
-  for (let i = 0; i < 5_000_000; i += 1) {
+  // for (let i = 0; i < 5_000_000; i += 1) {
+  for (let i = 0; i < 5; i += 1) {
     song.addEvent({
       id: `${i + 1}`,
       kind: 'Note',
@@ -46,7 +47,7 @@ addEvents()
 export function App() {
   return (
     <>
-      <FPSStats left="auto" right={0} />
+      <FPSStats />
       <div className="w-full m-auto mt-12 p-4 max-w-[40rem] flex flex-col space-y-8">
         <TransportSection engine={engine} />
         <ProgressSection engine={engine} />

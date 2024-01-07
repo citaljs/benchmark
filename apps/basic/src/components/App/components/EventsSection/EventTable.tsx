@@ -36,7 +36,7 @@ export function EventTable({ events: _events }: EventTableProps) {
     <Table
       containerRef={tableContainerRef}
       classNames={{
-        container: 'rounded-md border w-auto h-96',
+        container: 'rounded-md border w-auto max-h-96',
         table: 'grid',
       }}
     >
