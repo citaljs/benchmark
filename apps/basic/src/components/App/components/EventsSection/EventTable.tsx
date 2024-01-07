@@ -53,26 +53,37 @@ export function EventTable({ events: _events }: EventTableProps) {
       </TableHeader>
       <TableBody
         className="grid relative"
-        style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
+        style={{ height: `${rowVirtualizer.getTotalSize() || 200}px` }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-          const event = events[virtualRow.index]
-          return (
-            <TableRow
-              data-index={virtualRow.index}
-              key={event.id}
-              ref={(node) => rowVirtualizer.measureElement(node)}
-              className="absolute h-[40px] w-full"
-              style={{ transform: `translateY(${virtualRow.start}px)` }}
+        {events.length > 0 ? (
+          rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const event = events[virtualRow.index]
+            return (
+              <TableRow
+                data-index={virtualRow.index}
+                key={event.id}
+                ref={(node) => rowVirtualizer.measureElement(node)}
+                className="absolute h-[40px] w-full"
+                style={{ transform: `translateY(${virtualRow.start}px)` }}
+              >
+                <TableCell className="w-32">{event.id}</TableCell>
+                <TableCell className="w-32">{event.ticks}</TableCell>
+                <TableCell className="w-32">{event.duration}</TableCell>
+                <TableCell className="w-32">{event.noteNumber}</TableCell>
+                <TableCell className="w-32">{event.velocity}</TableCell>
+              </TableRow>
+            )
+          })
+        ) : (
+          <TableRow>
+            <TableCell
+              colSpan={5}
+              className="flex justify-center items-center h-full text-muted-foreground"
             >
-              <TableCell className="w-32">{event.id}</TableCell>
-              <TableCell className="w-32">{event.ticks}</TableCell>
-              <TableCell className="w-32">{event.duration}</TableCell>
-              <TableCell className="w-32">{event.noteNumber}</TableCell>
-              <TableCell className="w-32">{event.velocity}</TableCell>
-            </TableRow>
-          )
-        })}
+              No events
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
       <TableFooter className="grid sticky bottom-0 z-10">
         <TableRow>
