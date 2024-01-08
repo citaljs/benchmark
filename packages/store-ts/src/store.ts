@@ -57,7 +57,7 @@ export class Store implements IStore {
   }
 
   addEvents(events: Event[]) {
-    this.events.push(...events)
+    events.forEach((event) => this.addEvent(event))
   }
 
   updateEvent(event: EventUpdate) {
