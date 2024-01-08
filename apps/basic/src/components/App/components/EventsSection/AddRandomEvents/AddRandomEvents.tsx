@@ -10,18 +10,15 @@ import {
   DialogTrigger,
 } from '~/components/ui/dialog'
 import { generateRandomString } from '~/utils/random'
-import { AddRandomEventsDialogContent } from './AddRandomEventsForm'
+import { AddRandomEventsForm } from './AddRandomEventsForm'
 import { FormValues } from './formSchema'
 
-interface AddRandomEventsDialogContentProps {
+interface AddRandomEventsProps {
   song: ISong
-  onAddEvents?: () => void
+  onAdd?: () => void
 }
 
-export function AddRandomEvents({
-  song,
-  onAddEvents,
-}: AddRandomEventsDialogContentProps) {
+export function AddRandomEvents({ song, onAdd }: AddRandomEventsProps) {
   const [open, setOpen] = useState(false)
 
   const handleSubmit = useCallback(
@@ -64,10 +61,10 @@ export function AddRandomEvents({
       })
 
       song.addEvents(events)
-      onAddEvents?.()
+      onAdd?.()
       setOpen(false)
     },
-    [onAddEvents],
+    [onAdd],
   )
 
   return (
@@ -79,7 +76,7 @@ export function AddRandomEvents({
         <DialogHeader>
           <DialogTitle>Add random events</DialogTitle>
         </DialogHeader>
-        <AddRandomEventsDialogContent onSubmit={handleSubmit} />
+        <AddRandomEventsForm onSubmit={handleSubmit} />
       </DialogContent>
     </Dialog>
   )

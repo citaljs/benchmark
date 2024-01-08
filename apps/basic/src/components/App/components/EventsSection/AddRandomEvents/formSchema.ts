@@ -1,15 +1,16 @@
 import * as z from 'zod'
 
 function isPositiveInteger(value: unknown): value is number {
-  return Number.isInteger(Number(value)) && Number(value) > 0
+  return value !== '' && Number.isInteger(Number(value)) && Number(value) > 0
 }
 
 function isUnsignedInteger(value: unknown): value is number {
-  return Number.isInteger(Number(value)) && Number(value) >= 0
+  return value !== '' && Number.isInteger(Number(value)) && Number(value) >= 0
 }
 
 function is7bitInteger(value: unknown): value is number {
   return (
+    value !== '' &&
     Number.isInteger(Number(value)) &&
     Number(value) >= 0 &&
     Number(value) <= 127

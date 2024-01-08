@@ -6,13 +6,11 @@ import { Input } from '~/components/ui/input'
 import { ErrorMessage } from '~/components/ui/message'
 import { FormValues, formSchema } from './formSchema'
 
-interface AddRandomEventsDialogContentProps {
+interface AddRandomEventsFormProps {
   onSubmit: (values: FormValues) => void
 }
 
-export function AddRandomEventsDialogContent({
-  onSubmit,
-}: AddRandomEventsDialogContentProps) {
+export function AddRandomEventsForm({ onSubmit }: AddRandomEventsFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   })

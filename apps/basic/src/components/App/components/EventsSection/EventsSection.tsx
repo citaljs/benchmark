@@ -4,7 +4,9 @@ import { H2 } from '~/components/ui/h2'
 import { useRerender } from '~/hooks/use-rerender'
 import { AddRandomEvents } from './AddRandomEvents'
 import { EventTable } from './EventTable'
+import { RemoveAllEvents } from './RemoveAllEvents'
 import { TrackSelect } from './TrackSelect'
+import { UpdateAllEvents } from './UpdateAllEvents'
 
 interface EventsSectionProps {
   song: ISong
@@ -13,6 +15,9 @@ interface EventsSectionProps {
 export function EventsSection({ song }: EventsSectionProps) {
   const [selectedItem, setSelectedItem] = useState<string>('all')
   const rerender = useRerender()
+
+  const allEvents = song.getEvents()
+  const isEventsEmpty = allEvents.length === 0
 
   return (
     <div>
@@ -26,11 +31,21 @@ export function EventsSection({ song }: EventsSectionProps) {
             song={song}
           />
 
-          <AddRandomEvents song={song} onAddEvents={rerender} />
+          <AddRandomEvents song={song} onAdd={rerender} />
+          <UpdateAllEvents
+            song={song}
+            disabled={isEventsEmpty}
+            onUpdate={rerender}
+          />
+          <RemoveAllEvents
+            song={song}
+            disabled={isEventsEmpty}
+            onRemove={rerender}
+          />
         </div>
 
         {selectedItem === 'all' ? (
-          <EventTable events={song.getEvents()} />
+          <EventTable events={allEvents} />
         ) : (
           <EventTable events={song.getTrack(selectedItem).getEvents()} />
         )}
