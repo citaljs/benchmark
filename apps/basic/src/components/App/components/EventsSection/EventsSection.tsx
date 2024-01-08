@@ -19,7 +19,7 @@ export function EventsSection({ song }: EventsSectionProps) {
       <H2>Events</H2>
 
       <div className="mt-4 flex flex-col space-y-4">
-        <div className="flex space-x-4">
+        <div className="flex space-x-4 justify-between">
           <TrackSelect
             value={selectedItem}
             onValueChange={setSelectedItem}

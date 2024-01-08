@@ -73,7 +73,7 @@ export function AddRandomEvents({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add random events</Button>
+        <Button>Add random events</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
