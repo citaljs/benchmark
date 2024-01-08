@@ -1,12 +1,12 @@
 import { ISong } from '@architecture-benchmark/song-ts'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { H2 } from '~/components/ui/h2'
 import { useRerender } from '~/hooks/use-rerender'
-import { AddRandomEvents } from './AddRandomEvents'
+import { AddRandomEventsDialog } from './AddRandomEventsDialog'
+import { EditEventsDropdownMenu } from './EditEventsDropdownMenu'
 import { EventTable } from './EventTable'
-import { RemoveAllEvents } from './RemoveAllEvents'
 import { TrackSelect } from './TrackSelect'
-import { UpdateAllEvents } from './UpdateAllEvents'
+import { UpdateAllEventsDialog } from './UpdateAllEventsDialog'
 
 interface EventsSectionProps {
   song: ISong
@@ -14,10 +14,14 @@ interface EventsSectionProps {
 
 export function EventsSection({ song }: EventsSectionProps) {
   const [selectedItem, setSelectedItem] = useState<string>('all')
+  const allEvents = song.getEvents()
   const rerender = useRerender()
 
-  const allEvents = song.getEvents()
-  const isEventsEmpty = allEvents.length === 0
+  const remove = useCallback(() => {
+    const eventIds = song.getEvents().map((event) => event.id)
+    song.removeEvents(eventIds)
+    rerender()
+  }, [rerender])
 
   return (
     <div>
@@ -31,17 +35,13 @@ export function EventsSection({ song }: EventsSectionProps) {
             song={song}
           />
 
-          <AddRandomEvents song={song} onAdd={rerender} />
-          <UpdateAllEvents
-            song={song}
-            disabled={isEventsEmpty}
-            onUpdate={rerender}
+          <EditEventsDropdownMenu
+            isEventsEmpty={allEvents.length === 0}
+            onRemoveAllEvents={remove}
           />
-          <RemoveAllEvents
-            song={song}
-            disabled={isEventsEmpty}
-            onRemove={rerender}
-          />
+
+          <AddRandomEventsDialog song={song} onAdd={rerender} />
+          <UpdateAllEventsDialog song={song} onUpdate={rerender} />
         </div>
 
         {selectedItem === 'all' ? (
