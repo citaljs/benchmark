@@ -1,5 +1,5 @@
-import { Note } from '@architecture-benchmark/event-ts'
-import { ISong } from '@architecture-benchmark/song-ts'
+import { Note } from '@benchmark/event-ts'
+import { ISong } from '@benchmark/song-ts'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'

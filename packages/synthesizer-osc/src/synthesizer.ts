@@ -1,8 +1,4 @@
-import {
-  ISynthesizer,
-  NoteOff,
-  NoteOn,
-} from '@architecture-benchmark/synthesizer-base'
+import { ISynthesizer, NoteOff, NoteOn } from '@benchmark/synthesizer-base'
 import { noteNumberToFrequency } from './utils'
 
 type OscillatorType = 'sawtooth' | 'sine' | 'square' | 'triangle'

@@ -1,4 +1,4 @@
-import { Event } from '@architecture-benchmark/event-ts'
+import { Event } from '@benchmark/event-ts'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useRef } from 'react'
 import {

@@ -1,5 +1,5 @@
-import { Event, EventUpdate } from '@architecture-benchmark/event-ts'
-import { Filter, IStore, createStore } from '@architecture-benchmark/store-ts'
+import { Event, EventUpdate } from '@benchmark/event-ts'
+import { Filter, IStore, createStore } from '@benchmark/store-ts'
 import { ITrack, createTrack } from '../track'
 
 export interface ISong {

@@ -1,4 +1,4 @@
-import { Note } from '@architecture-benchmark/event-ts'
+import { Note } from '@benchmark/event-ts'
 import { NoteOff, NoteOn } from './types'
 
 export const disassembleNote = (note: Readonly<Note>): [NoteOn, NoteOff] => {

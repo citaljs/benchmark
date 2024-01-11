@@ -1,6 +1,6 @@
-# @resonance-box/architecture-benchmark
+# @resonance-box/benchmark
 
-**Welcome to the `@resonance-box/architecture-benchmark`!**
+**Welcome to the `@resonance-box/benchmark`!**
 
 This repository is an experimental space. There are no packages publicly released from here.
 

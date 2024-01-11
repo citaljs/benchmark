@@ -1,5 +1,5 @@
 {
-  "name": "architecture-benchmark",
+  "name": "benchmark",
   "private": true,
   "scripts": {
     "build": "turbo build",
@@ -8,7 +8,7 @@
     "prepare": "pnpm build"
   },
   "dependencies": {
-    "@architecture-benchmark/typescript-config": "workspace:*",
+    "@benchmark/typescript-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "eslint": "^8.53.0",

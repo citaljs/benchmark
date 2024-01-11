@@ -1,4 +1,4 @@
-import { ISong, createSong } from '@architecture-benchmark/song-ts'
+import { ISong, createSong } from '@benchmark/song-ts'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
   millisecondsToTicks,

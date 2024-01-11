@@ -1,4 +1,4 @@
-import { Engine } from '@architecture-benchmark/engine-ts'
+import { Engine } from '@benchmark/engine-ts'
 import { useCallback } from 'react'
 import { Button } from '~/components/ui/button'
 import { H2 } from '~/components/ui/h2'

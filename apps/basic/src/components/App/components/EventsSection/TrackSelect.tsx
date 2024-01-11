@@ -1,4 +1,4 @@
-import { ISong } from '@architecture-benchmark/song-ts'
+import { ISong } from '@benchmark/song-ts'
 import { useMemo } from 'react'
 import {
   Select,

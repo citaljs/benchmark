@@ -1,6 +1,6 @@
-import { Event } from '@architecture-benchmark/event-ts'
-import { Filter, IStore } from '@architecture-benchmark/store-ts'
-import { ISynthesizer } from '@architecture-benchmark/synthesizer-base'
+import { Event } from '@benchmark/event-ts'
+import { Filter, IStore } from '@benchmark/store-ts'
+import { ISynthesizer } from '@benchmark/synthesizer-base'
 
 export interface ITrack {
   getId(): string

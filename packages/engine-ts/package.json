@@ -1,16 +1,16 @@
 {
-  "name": "@architecture-benchmark/engine-ts",
+  "name": "@benchmark/engine-ts",
   "private": true,
   "version": "0.0.0",
   "description": "",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/resonance-box/architecture-benchmark.git"
+    "url": "https://github.com/resonance-box/benchmark.git"
   },
-  "homepage": "https://github.com/resonance-box/architecture-benchmark#readme",
+  "homepage": "https://github.com/resonance-box/benchmark#readme",
   "bugs": {
-    "url": "https://github.com/resonance-box/architecture-benchmark/issues"
+    "url": "https://github.com/resonance-box/benchmark/issues"
   },
   "license": "MIT",
   "author": "ot07",
@@ -24,9 +24,9 @@
     "build": "rimraf dist && node build.mjs && tsc"
   },
   "dependencies": {
-    "@architecture-benchmark/event-ts": "workspace:*",
-    "@architecture-benchmark/song-ts": "workspace:*",
-    "@architecture-benchmark/store-ts": "workspace:*"
+    "@benchmark/event-ts": "workspace:*",
+    "@benchmark/song-ts": "workspace:*",
+    "@benchmark/store-ts": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",

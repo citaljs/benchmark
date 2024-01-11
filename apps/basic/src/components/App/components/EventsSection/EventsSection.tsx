@@ -1,4 +1,4 @@
-import { ISong } from '@architecture-benchmark/song-ts'
+import { ISong } from '@benchmark/song-ts'
 import { useCallback, useState } from 'react'
 import { H2 } from '~/components/ui/h2'
 import { useRerender } from '~/hooks/use-rerender'

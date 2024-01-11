@@ -1,4 +1,4 @@
-import { Engine } from '@architecture-benchmark/engine-ts'
+import { Engine } from '@benchmark/engine-ts'
 import { H2 } from '~/components/ui/h2'
 import { ProgressBlock } from './ProgressBlock'
 import { useUpdateCurrentSeconds } from './useUpdateCurrentSeconds'

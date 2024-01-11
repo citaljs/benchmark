@@ -8,7 +8,7 @@ importers:
 
   .:
     dependencies:
-      '@architecture-benchmark/typescript-config':
+      '@benchmark/typescript-config':
         specifier: workspace:*
         version: link:packages/typescript-config
       '@typescript-eslint/eslint-plugin':
@@ -50,16 +50,16 @@ importers:
 
   apps/basic:
     dependencies:
-      '@architecture-benchmark/engine-ts':
+      '@benchmark/engine-ts':
         specifier: workspace:*
         version: link:../../packages/engine-ts
-      '@architecture-benchmark/event-ts':
+      '@benchmark/event-ts':
         specifier: workspace:*
         version: link:../../packages/event-ts
-      '@architecture-benchmark/song-ts':
+      '@benchmark/song-ts':
         specifier: workspace:*
         version: link:../../packages/song-ts
-      '@architecture-benchmark/synthesizer-osc':
+      '@benchmark/synthesizer-osc':
         specifier: workspace:*
         version: link:../../packages/synthesizer-osc
       '@hookform/resolvers':
@@ -162,13 +162,13 @@ importers:
 
   packages/engine-ts:
     dependencies:
-      '@architecture-benchmark/event-ts':
+      '@benchmark/event-ts':
         specifier: workspace:*
         version: link:../event-ts
-      '@architecture-benchmark/song-ts':
+      '@benchmark/song-ts':
         specifier: workspace:*
         version: link:../song-ts
-      '@architecture-benchmark/store-ts':
+      '@benchmark/store-ts':
         specifier: workspace:*
         version: link:../store-ts
     devDependencies:
@@ -199,13 +199,13 @@ importers:
 
   packages/song-ts:
     dependencies:
-      '@architecture-benchmark/event-ts':
+      '@benchmark/event-ts':
         specifier: workspace:*
         version: link:../event-ts
-      '@architecture-benchmark/store-ts':
+      '@benchmark/store-ts':
         specifier: workspace:*
         version: link:../store-ts
-      '@architecture-benchmark/synthesizer-base':
+      '@benchmark/synthesizer-base':
         specifier: workspace:*
         version: link:../synthesizer-base
     devDependencies:
@@ -221,7 +221,7 @@ importers:
 
   packages/store-ts:
     dependencies:
-      '@architecture-benchmark/event-ts':
+      '@benchmark/event-ts':
         specifier: workspace:*
         version: link:../event-ts
       sorted-btree:
@@ -252,7 +252,7 @@ importers:
 
   packages/synthesizer-osc:
     dependencies:
-      '@architecture-benchmark/synthesizer-base':
+      '@benchmark/synthesizer-base':
         specifier: workspace:*
         version: link:../synthesizer-base
     devDependencies:

@@ -1,4 +1,4 @@
-import { Engine } from '@architecture-benchmark/engine-ts'
+import { Engine } from '@benchmark/engine-ts'
 import { useEffect, useRef } from 'react'
 
 type UseUpdateCurrentSeconds = (

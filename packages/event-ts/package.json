@@ -1,16 +1,16 @@
 {
-  "name": "@architecture-benchmark/event-ts",
+  "name": "@benchmark/event-ts",
   "private": true,
   "version": "0.0.0",
   "description": "",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/resonance-box/architecture-benchmark.git"
+    "url": "https://github.com/resonance-box/benchmark.git"
   },
-  "homepage": "https://github.com/resonance-box/architecture-benchmark#readme",
+  "homepage": "https://github.com/resonance-box/benchmark#readme",
   "bugs": {
-    "url": "https://github.com/resonance-box/architecture-benchmark/issues"
+    "url": "https://github.com/resonance-box/benchmark/issues"
   },
   "license": "MIT",
   "author": "ot07",

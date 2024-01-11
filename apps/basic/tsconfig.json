@@ -1,5 +1,5 @@
 {
-  "extends": "@architecture-benchmark/typescript-config/tsconfig.base.json",
+  "extends": "@benchmark/typescript-config/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "baseUrl": ".",

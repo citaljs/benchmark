@@ -1,4 +1,4 @@
-import { Event, EventUpdate } from '@architecture-benchmark/event-ts'
+import { Event, EventUpdate } from '@benchmark/event-ts'
 import { Filter, TicksRangeFilter } from './filter'
 
 function getFilterByTrackIdsFn(trackIds: string[]) {

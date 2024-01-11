@@ -1,5 +1,5 @@
-import { createEngine } from '@architecture-benchmark/engine-ts'
-import { OscSynthesizer } from '@architecture-benchmark/synthesizer-osc'
+import { createEngine } from '@benchmark/engine-ts'
+import { OscSynthesizer } from '@benchmark/synthesizer-osc'
 import FPSStats from 'react-fps-stats'
 import { EventsSection } from './components/EventsSection'
 import { ProgressSection } from './components/ProgressSection'
