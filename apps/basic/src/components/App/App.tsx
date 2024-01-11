@@ -29,7 +29,7 @@ function addEvents() {
   })
 
   // for (let i = 0; i < 5_000_000; i += 1) {
-  for (let i = 0; i < 5; i += 1) {
+  for (let i = 0; i < 0; i += 1) {
     song.addEvent({
       id: `${i + 1}`,
       kind: 'Note',
