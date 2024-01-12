@@ -1,10 +1,10 @@
-import { Engine } from '@benchmark/engine-ts'
+import { IEngine } from '@benchmark/engine-ts'
 import { useCallback } from 'react'
 import { Button } from '~/components/ui/button'
 import { H2 } from '~/components/ui/h2'
 
 interface TransportSectionProps {
-  engine: Engine
+  engine: IEngine
 }
 
 export function TransportSection({ engine }: TransportSectionProps) {

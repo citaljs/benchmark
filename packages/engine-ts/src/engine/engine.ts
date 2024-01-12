@@ -4,14 +4,14 @@ import {
   millisecondsToTicks,
   ticksToSeconds,
 } from '../shared'
-import { Player, PlayerImpl } from './player'
+import { IPlayer, Player } from './player'
 import { disassembleNote } from './utils'
 
 export interface EngineConfig {
   lookAheadTime?: number
 }
 
-export interface Engine {
+export interface IEngine {
   play: () => void
   stop: () => void
   getCurrentTicks: () => number
@@ -23,19 +23,19 @@ export interface Engine {
   getSong: () => ISong
 }
 
-class EngineImpl implements Engine {
+class Engine implements IEngine {
   private readonly lookAheadTime: number
   private scheduledTicks: number
-  private readonly player: Player
+  private readonly player: IPlayer
   private readonly song: ISong
 
   constructor(song: ISong, config?: EngineConfig) {
     this.lookAheadTime = config?.lookAheadTime ?? DEFAULT_LOOK_AHEAD_TIME
     this.scheduledTicks = 0
-    this.player = new PlayerImpl()
+    this.player = new Player()
     this.song = song
 
-    this.player.onUpdate = ({ ticks }) => {
+    this.player.onInterval = ({ ticks }) => {
       const startTicks = this.scheduledTicks
 
       const endTicks =
@@ -140,7 +140,7 @@ class EngineImpl implements Engine {
   }
 }
 
-export function createEngine(config?: EngineConfig): Engine {
+export function createEngine(config?: EngineConfig): IEngine {
   const song = createSong()
-  return new EngineImpl(song, config)
+  return new Engine(song, config)
 }

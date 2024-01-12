@@ -1,11 +1,11 @@
-import { Engine } from '@benchmark/engine-ts'
+import { IEngine } from '@benchmark/engine-ts'
 import { H2 } from '~/components/ui/h2'
 import { ProgressBlock } from './ProgressBlock'
 import { useUpdateCurrentSeconds } from './useUpdateCurrentSeconds'
 import { useUpdateCurrentTicks } from './useUpdateCurrentTicks'
 
 interface ProgressSectionProps {
-  engine: Engine
+  engine: IEngine
 }
 
 export function ProgressSection({ engine }: ProgressSectionProps) {

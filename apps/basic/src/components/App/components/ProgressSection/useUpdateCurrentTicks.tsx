@@ -1,8 +1,8 @@
-import { Engine } from '@benchmark/engine-ts'
+import { IEngine } from '@benchmark/engine-ts'
 import { useEffect, useRef } from 'react'
 
 type UseUpdateCurrentTicks = (
-  engine: Engine,
+  engine: IEngine,
 ) => React.RefObject<HTMLSpanElement>
 
 export const useUpdateCurrentTicks: UseUpdateCurrentTicks = (engine) => {
