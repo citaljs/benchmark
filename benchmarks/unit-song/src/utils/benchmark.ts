@@ -74,7 +74,7 @@ function recordSampleTime(
   return elapsed
 }
 
-export function runBenchmark(
+function recordRunTime(
   fn: () => void,
   options?: BenchmarkOptions,
 ): BenchmarkResult {
@@ -126,7 +126,7 @@ export function runBenchmark(
   }
 }
 
-export function computeMetrics(result: BenchmarkResult): BenchmarkMetrics {
+function computeMetrics(result: BenchmarkResult): BenchmarkMetrics {
   const { elapsedTimes, samples, iters } = result
 
   elapsedTimes.sort((a, b) => Number(a - b))
@@ -146,7 +146,7 @@ export function computeMetrics(result: BenchmarkResult): BenchmarkMetrics {
   }
 }
 
-export function printMetrics(metrics: BenchmarkMetrics, label: string) {
+function printMetrics(metrics: BenchmarkMetrics, label: string) {
   const { fastest, slowest, median, mean, samples, iters } = metrics
 
   console.log(
@@ -156,4 +156,14 @@ export function printMetrics(metrics: BenchmarkMetrics, label: string) {
       mean,
     )}, samples: ${samples}, iters: ${iters}`,
   )
+}
+
+export function runBenchmark(
+  label: string,
+  fn: () => void,
+  options?: BenchmarkOptions,
+) {
+  const result = recordRunTime(fn, options)
+  const metrics = computeMetrics(result)
+  printMetrics(metrics, label)
 }

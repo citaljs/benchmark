@@ -1,6 +1,6 @@
 import { Event } from '@benchmark/event-ts'
 import { ISong, createSong } from '@benchmark/song-ts'
-import { computeMetrics, printMetrics, runBenchmark } from '../utils/benchmark'
+import { runBenchmark } from '../utils/benchmark'
 import { randomEvents, randomId } from '../utils/random'
 
 export function runAddEventsBenchmark() {
@@ -9,7 +9,8 @@ export function runAddEventsBenchmark() {
   song.createTrack(trackId)
   let events: Event[] = randomEvents(100, trackId)
 
-  const result = runBenchmark(
+  runBenchmark(
+    'song.addEvents',
     () => {
       song.addEvents(events)
     },
@@ -22,8 +23,4 @@ export function runAddEventsBenchmark() {
       },
     },
   )
-
-  const metrics = computeMetrics(result)
-
-  printMetrics(metrics, 'song.addEvents')
 }
