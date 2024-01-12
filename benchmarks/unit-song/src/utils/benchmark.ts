@@ -150,11 +150,11 @@ function printMetrics(metrics: BenchmarkMetrics, label: string) {
   const { fastest, slowest, median, mean, samples, iters } = metrics
 
   console.log(
-    `[${label}] fastest: ${formatTime(fastest)}, slowest: ${formatTime(
+    `[${label}] fastest: ${formatTime(fastest)} - slowest: ${formatTime(
       slowest,
-    )}, median: ${formatTime(median)}, mean: ${formatTime(
+    )} - median: ${formatTime(median)} - mean: ${formatTime(
       mean,
-    )}, samples: ${samples}, iters: ${iters}`,
+    )} - samples: ${samples.toLocaleString()} - iters: ${iters.toLocaleString()}`,
   )
 }
 
