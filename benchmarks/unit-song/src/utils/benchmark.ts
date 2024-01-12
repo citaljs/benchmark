@@ -11,16 +11,16 @@ interface BenchmarkOptions {
 }
 
 interface BenchmarkResult {
-  elapsedTimes: number[]
+  elapsedTimes: bigint[]
   samples: number
   iters: number
 }
 
 interface BenchmarkMetrics {
-  fastest: number
-  slowest: number
-  median: number
-  mean: number
+  fastest: bigint
+  slowest: bigint
+  median: bigint
+  mean: bigint
   samples: number
   iters: number
 }
@@ -29,13 +29,35 @@ function secondsToMilliseconds(seconds: number) {
   return seconds * 1000
 }
 
+function formatTime(ns: bigint): string {
+  const oneSecond = BigInt(1_000_000_000)
+  if (ns >= oneSecond) {
+    const durationInSeconds = Number(ns) / 1_000_000_000
+    return `${durationInSeconds.toFixed(1)} s`
+  }
+
+  const oneMillisecond = BigInt(1_000_000)
+  if (ns >= oneMillisecond) {
+    const durationInMilliseconds = Number(ns) / 1_000_000
+    return `${durationInMilliseconds.toFixed(1)} ms`
+  }
+
+  const oneMicrosecond = BigInt(1_000)
+  if (ns >= oneMicrosecond) {
+    const durationInMicroseconds = Number(ns) / 1_000
+    return `${durationInMicroseconds.toFixed(1)} µs`
+  }
+
+  return `${Number(ns).toFixed(1)} ns`
+}
+
 function recordSampleTime(
   fn: () => void,
   sampleSize: number,
   onIterationStart?: () => void,
   onIterationEnd?: () => void,
 ) {
-  let elapsed = 0
+  let elapsed = 0n
 
   for (let i = 0; i < sampleSize; i += 1) {
     onIterationStart?.()
@@ -44,7 +66,7 @@ function recordSampleTime(
     fn()
     const end = hrtime.bigint()
 
-    elapsed += Number(end - start)
+    elapsed += end - start
 
     onIterationEnd?.()
   }
@@ -69,7 +91,7 @@ export function runBenchmark(
   }
 
   let samples = 0
-  const elapsedTimes: number[] = []
+  const elapsedTimes: bigint[] = []
   const maxTimeMs = secondsToMilliseconds(maxTime)
 
   const startTime = performance.now()
@@ -107,11 +129,12 @@ export function runBenchmark(
 export function computeMetrics(result: BenchmarkResult): BenchmarkMetrics {
   const { elapsedTimes, samples, iters } = result
 
-  elapsedTimes.sort((a, b) => a - b)
+  elapsedTimes.sort((a, b) => Number(a - b))
   const fastest = elapsedTimes[0]
   const slowest = elapsedTimes[elapsedTimes.length - 1]
   const median = elapsedTimes[Math.floor(elapsedTimes.length / 2)]
-  const mean = elapsedTimes.reduce((a, b) => a + b, 0) / elapsedTimes.length
+  const mean =
+    elapsedTimes.reduce((a, b) => a + b, 0n) / BigInt(elapsedTimes.length)
 
   return {
     fastest,
@@ -123,14 +146,14 @@ export function computeMetrics(result: BenchmarkResult): BenchmarkMetrics {
   }
 }
 
-export function printMetrics(metrics: BenchmarkMetrics, name: string) {
+export function printMetrics(metrics: BenchmarkMetrics, label: string) {
   const { fastest, slowest, median, mean, samples, iters } = metrics
 
   console.log(
-    `[${name}] fastest: ${fastest.toFixed(1)}ns, slowest: ${slowest.toFixed(
-      1,
-    )}ns, median: ${median.toFixed(1)}ns, mean: ${mean.toFixed(
-      1,
-    )}ns, samples: ${samples}, iters: ${iters}`,
+    `[${label}] fastest: ${formatTime(fastest)}, slowest: ${formatTime(
+      slowest,
+    )}, median: ${formatTime(median)}, mean: ${formatTime(
+      mean,
+    )}, samples: ${samples}, iters: ${iters}`,
   )
 }
