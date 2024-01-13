@@ -8,6 +8,7 @@
   "dependencies": {
     "@benchmark/event-ts": "workspace:*",
     "@benchmark/song-ts": "workspace:*",
+    "@benchmark/store-ts": "workspace:*",
     "benchmark": "^2.1.4"
   },
   "devDependencies": {

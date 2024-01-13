@@ -171,6 +171,9 @@ importers:
       '@benchmark/song-ts':
         specifier: workspace:*
         version: link:../../packages/song-ts
+      '@benchmark/store-ts':
+        specifier: workspace:*
+        version: link:../../packages/store-ts
       benchmark:
         specifier: ^2.1.4
         version: 2.1.4
