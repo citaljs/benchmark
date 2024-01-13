@@ -1,4 +1,5 @@
 import { Event, EventUpdate } from '@benchmark/event-ts'
+import { IStore } from './base'
 import { Filter, TicksRangeFilter } from './filter'
 
 function getFilterByTrackIdsFn(trackIds: string[]) {
@@ -19,16 +20,6 @@ function getFilterByTicksRangeFn(ticksRange: TicksRangeFilter) {
 
     return ticks >= start && ticks <= end
   }
-}
-
-export interface IStore {
-  getEvents(filter?: Filter): Event[]
-  addEvent(event: Event): void
-  addEvents(events: Event[]): void
-  updateEvent(event: EventUpdate): void
-  updateEvents(events: EventUpdate[]): void
-  removeEvent(eventId: string): void
-  removeEvents(eventIds: string[]): void
 }
 
 export class Store implements IStore {

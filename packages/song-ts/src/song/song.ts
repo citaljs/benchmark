@@ -1,5 +1,5 @@
 import { Event, EventUpdate } from '@benchmark/event-ts'
-import { Filter, IStore, createStore } from '@benchmark/store-ts'
+import { Filter, IStore } from '@benchmark/store-ts'
 import { ITrack, createTrack } from '../track'
 
 export interface ISong {
@@ -20,8 +20,8 @@ export class Song implements ISong {
   private store: IStore
   private tracks: ITrack[]
 
-  constructor() {
-    this.store = createStore()
+  constructor(store: IStore) {
+    this.store = store
     this.tracks = []
   }
 
@@ -93,6 +93,6 @@ export class Song implements ISong {
   }
 }
 
-export function createSong(): ISong {
-  return new Song()
+export function createSong(store: IStore): ISong {
+  return new Song(store)
 }

@@ -1,4 +1,5 @@
 import { ISong, createSong } from '@benchmark/song-ts'
+import { IStore } from '@benchmark/store-ts'
 import {
   DEFAULT_LOOK_AHEAD_TIME,
   millisecondsToTicks,
@@ -140,7 +141,7 @@ class Engine implements IEngine {
   }
 }
 
-export function createEngine(config?: EngineConfig): IEngine {
-  const song = createSong()
+export function createEngine(store: IStore, config?: EngineConfig): IEngine {
+  const song = createSong(store)
   return new Engine(song, config)
 }

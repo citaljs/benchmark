@@ -59,6 +59,9 @@ importers:
       '@benchmark/song-ts':
         specifier: workspace:*
         version: link:../../packages/song-ts
+      '@benchmark/store-ts':
+        specifier: workspace:*
+        version: link:../../packages/store-ts
       '@benchmark/synthesizer-osc':
         specifier: workspace:*
         version: link:../../packages/synthesizer-osc

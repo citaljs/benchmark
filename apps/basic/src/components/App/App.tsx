@@ -1,4 +1,5 @@
 import { createEngine } from '@benchmark/engine-ts'
+import { createStoreV2 } from '@benchmark/store-ts'
 import { OscSynthesizer } from '@benchmark/synthesizer-osc'
 import FPSStats from 'react-fps-stats'
 import { EventsSection } from './components/EventsSection'
@@ -9,7 +10,8 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random() * max)
 }
 
-const engine = createEngine()
+const store = createStoreV2()
+const engine = createEngine(store)
 const song = engine.getSong()
 
 function addEvents() {

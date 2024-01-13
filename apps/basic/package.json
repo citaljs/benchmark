@@ -13,6 +13,7 @@
     "@benchmark/engine-ts": "workspace:*",
     "@benchmark/event-ts": "workspace:*",
     "@benchmark/song-ts": "workspace:*",
+    "@benchmark/store-ts": "workspace:*",
     "@benchmark/synthesizer-osc": "workspace:*",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-dialog": "^1.0.5",
