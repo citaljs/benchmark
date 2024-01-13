@@ -1,5 +1,9 @@
-import { runAddEventsBenchmark } from './benchmarks/add-events'
-import { runGetEventsBenchmark } from './benchmarks/get-events'
+import { runAddEventBenchmarks } from './benchmarks/add-event'
+import { runGetEventsBenchmarks } from './benchmarks/get-events'
+import { runRemoveEventBenchmarks } from './benchmarks/remove-event'
+import { runUpdateEventBenchmarks } from './benchmarks/update-event'
 
-runAddEventsBenchmark()
-runGetEventsBenchmark()
+runGetEventsBenchmarks()
+runAddEventBenchmarks()
+runUpdateEventBenchmarks()
+runRemoveEventBenchmarks()

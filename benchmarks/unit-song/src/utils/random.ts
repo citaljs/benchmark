@@ -20,7 +20,7 @@ export function randomVelocity(): number {
   return random7bit()
 }
 
-export function randomEvent(trackId: string): Event {
+export function randomEvent(availableTrackIds: string[]): Event {
   return {
     id: randomId(),
     kind: 'Note',
@@ -28,14 +28,18 @@ export function randomEvent(trackId: string): Event {
     duration: randomTicks(),
     noteNumber: randomNoteNumber(),
     velocity: randomVelocity(),
-    trackId,
+    trackId:
+      availableTrackIds[Math.floor(Math.random() * availableTrackIds.length)],
   }
 }
 
-export function randomEvents(count: number, trackId: string): Event[] {
+export function randomEvents(
+  count: number,
+  availableTrackIds: string[],
+): Event[] {
   const events: Event[] = []
   for (let i = 0; i < count; i += 1) {
-    const event = randomEvent(trackId)
+    const event = randomEvent(availableTrackIds)
     events.push(event)
   }
   return events

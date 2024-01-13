@@ -80,8 +80,8 @@ function recordRunTime(
 ): BenchmarkResult {
   const {
     sampleSize = 100,
-    sampleCount,
-    maxTime = 1,
+    sampleCount = 10,
+    maxTime = 5,
     onIterationStart,
     onIterationEnd,
     onSampleStart,
@@ -95,7 +95,7 @@ function recordRunTime(
   const maxTimeMs = secondsToMilliseconds(maxTime)
 
   const startTime = performance.now()
-  while (sampleCount === undefined || samples < sampleCount) {
+  while (samples < sampleCount) {
     if (performance.now() - startTime > maxTimeMs) {
       break
     }

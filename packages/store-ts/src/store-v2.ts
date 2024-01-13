@@ -45,6 +45,10 @@ export class StoreV2 implements IStore {
   }
 
   getEvents(filter?: Filter) {
+    if (!filter?.ticksRange && !filter?.trackIds) {
+      return Array.from(this.events.values())
+    }
+
     const events = this.trackIdTicksIndex
       .filter((trackId) => {
         if (filter?.trackIds) {
