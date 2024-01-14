@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "benchmark": "tsx ./src/main.ts"
+    "_benchmark": "tsx ./src/main.ts",
+    "benchmark": "pnpm install && pnpm _benchmark"
   },
   "dependencies": {
     "@benchmark/event-ts": "workspace:*",

@@ -6,3 +6,7 @@ export function range(start: number, end?: number): number[] {
 
   return Array.from({ length: end - start }, (_, i) => i + start)
 }
+
+export function randomChoice<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
