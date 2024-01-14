@@ -30,17 +30,15 @@ export class StoreV2 implements IStore {
         return true
       })
       .reduce((acc, [, eventIds]) => {
-        const result = [...acc]
-
         eventIds.forEach((eventId) => {
           const event = this.events.get(eventId)
           if (!event) {
             throw new Error(`Event with id ${eventId} not found`)
           }
-          result.push(event)
+          acc.push(event)
         })
 
-        return result
+        return acc
       }, [] as Event[])
   }
 
@@ -58,7 +56,8 @@ export class StoreV2 implements IStore {
       })
       .reduce((acc, [, ticksIndex]) => {
         const result = this.getEventsFromTicksIndex(ticksIndex, filter)
-        return [...acc, ...result]
+        acc.concat(result)
+        return acc
       }, [] as Event[])
 
     const eventIds = new Set(events.map((event) => event.id))
@@ -79,10 +78,11 @@ export class StoreV2 implements IStore {
           endTicksIndex,
           filter,
         ).filter((event) => !eventIds.has(event.id))
-        return [...acc, ...result]
+        acc.concat(result)
+        return acc
       }, [] as Event[])
 
-    return [...events, ...hasDurationEvents]
+    return events.concat(hasDurationEvents)
   }
 
   addEvent(event: Event) {
