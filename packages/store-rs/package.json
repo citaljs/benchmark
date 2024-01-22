@@ -1,0 +1,33 @@
+{
+  "name": "@benchmark/store-rs",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/resonance-box/benchmark.git"
+  },
+  "homepage": "https://github.com/resonance-box/benchmark#readme",
+  "bugs": {
+    "url": "https://github.com/resonance-box/benchmark/issues"
+  },
+  "license": "MIT",
+  "author": "ot07",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build:wasm": "rimraf src/__generated__/wasm && wasm-pack build wasm-src --release --target web --out-dir ../src/__generated__/wasm --no-pack && node scripts/gen-wasm.mjs",
+    "build": "rimraf dist && pnpm build:wasm && node build.mjs && tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "esbuild": "^0.19.11",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.2.2"
+  }
+}

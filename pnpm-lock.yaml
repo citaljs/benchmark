@@ -244,6 +244,21 @@ importers:
         specifier: ^5.2.2
         version: 5.3.2
 
+  packages/store-rs:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.10.6
+        version: 20.10.6
+      esbuild:
+        specifier: ^0.19.11
+        version: 0.19.11
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.5
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.2
+
   packages/store-ts:
     dependencies:
       '@benchmark/event-ts':
